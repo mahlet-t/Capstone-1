@@ -1,13 +1,16 @@
 package Capstone1;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Transaction {
-    private String Date;
-    private String Time;
+    private LocalDate Date;
+    private LocalTime Time;
     private String Description;
     private String Vendor;
     private double Amount;
 
-    public Transaction(String date, String time, String description, String vendor, double amount) {
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         Date = date;
         Time = time;
         Description = description;
@@ -15,11 +18,11 @@ public class Transaction {
         Amount = amount;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return Date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return Time;
     }
 
