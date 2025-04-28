@@ -37,4 +37,11 @@ public class Transaction {
     public double getAmount() {
         return Amount;
     }
+
+    public String toString(){
+        return String.format("%-12s %-10s %-10s  %-10s %10.2f",Date.toString(),Time.toString(),Description,Vendor,Amount,"\n");
+    }
+
 }
+
+
