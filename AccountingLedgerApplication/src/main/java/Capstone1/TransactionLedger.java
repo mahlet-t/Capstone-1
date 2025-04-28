@@ -213,5 +213,28 @@ public class TransactionLedger {
 
     }
 
+    /**
+     * Display a report of all transaction from the beginning of the current year up to today.
+     * Filter transactions between the first day of the year and the current date.
+     *
+     */
+   public static void yearToDateReport(ArrayList<Transaction>transactionsList){
+       System.out.println("Here is your current year Report");
+       System.out.println("................................................................");
+       System.out.println(String.format("%-12s%-10s%-10s  %10s  %-10s", "Date", "Time", "Description", "Vendor", "Amount"));
+       System.out.println("............................................................................");
+       LocalDate firstDayOfYear=LocalDate.now().withDayOfYear(1);
+       LocalDate today=LocalDate.now();
+       for (Transaction transaction:transactionsList){
+           LocalDate transactionDate=transaction.getDate();
+           if ((transactionDate.isEqual(firstDayOfYear)||transactionDate.isAfter(firstDayOfYear))
+                   &&(transactionDate.isEqual(today)||transactionDate.isBefore(today))){
+               System.out.println(transaction);
+           }
+       }
+
+
+   }
+
 
 }
