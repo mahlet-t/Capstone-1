@@ -20,6 +20,7 @@ public class TransactionLedger {
         Scanner input=new Scanner(System.in);
         ArrayList<Transaction>transactionList = getTransactionList();
         addDeposit(transactionList,input);
+        makePayment(transactionList,input);
 
 
     }
@@ -53,7 +54,7 @@ public class TransactionLedger {
     /**
      * prompts the user to enter deposit information.
      * creates a new Transaction and appends it to the transactions.csv file.
-     */
+     ....................................................................................................................*/
     public static void addDeposit(ArrayList<Transaction>transactionList,Scanner input){
         System.out.println("Enter a description: ");
         String description=input.nextLine();
@@ -78,6 +79,38 @@ public class TransactionLedger {
         }catch (Exception e){
             System.out.println("Invalid: "+e.getMessage());
         }
+    }
+
+    /**
+     * prompts the user to enter payment information, creates a new transaction,
+     * and appends it to the transactions.csv file.
+     ........................................................................................................*/
+    public static void makePayment(ArrayList<Transaction>transactionsList,Scanner input){
+        System.out.println("Enter a description: ");
+        String description=input.nextLine();
+        System.out.println("Enter the vendor name: ");
+        String name=input.nextLine();
+        System.out.println("Enter the amount to pay:");
+        double amount= input.nextDouble();
+        input.nextLine();
+        amount=amount*-1;
+        try {
+            Transaction transaction = new Transaction(LocalDate.now(), LocalTime.now().withNano(0), description, name, amount);
+            File file = new File("transaction.csv");
+            boolean fileExists = file.exists();
+            FileWriter writer = new FileWriter(file, true);
+            if (!fileExists){
+                writer.write("date"+"|"+"time"+"|"+"description"+"|"+"vendor"+"|"+"amount\n");
+
+            }
+            writer.write(transaction.getDate()+"|"+transaction.getTime()+"|"+transaction.getDescription()+"|"+transaction.getVendor()+"|"+transaction.getAmount()+"\n");
+            writer.close();
+            transactionsList.add(transaction);
+
+        }catch (Exception e){
+            System.out.println("Invalid: "+e.getMessage());
+        }
+
     }
 
 
