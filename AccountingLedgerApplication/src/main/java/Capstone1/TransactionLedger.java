@@ -33,7 +33,7 @@ public class TransactionLedger {
                 case "P":
                     makePayment(transactionList, input);
                     break;
-                case "L":
+                case "L":ledgerMenu(transactionList,input);
                     ;
                 case "X":
                     System.out.println("Good Bye!");keepChoosing=false;break;
@@ -320,6 +320,44 @@ public class TransactionLedger {
 
        }
    }
-   public static void
+   public static void ledgerMenu(ArrayList<Transaction>transactionsList,Scanner input){
+       boolean keepChoosing=true;
+       while (keepChoosing) {
+           System.out.println("Enter from the following option ");
+           System.out.println("A) Display ALL");
+           System.out.println("D) Display Deposits only");
+           System.out.println("P) Display payment only");
+           System.out.println("R) Report");
+           System.out.println("H) Go back To Home Page");
+           String choose = input.nextLine().toUpperCase();
+           switch (choose) {
+               case "A":
+                   displayAll(transactionsList);break;
+               case "D":
+                   displayDeposits(transactionsList);break;
+               case "P":
+                   displayPayment(transactionsList);break;
+               case "R": reports(transactionsList,input);
+               case "H":keepChoosing=false;break;
+               default: System.out.println("Invalid input try again");
+           }
+
+       }
+
+   }
+   public static void reports(ArrayList<Transaction>transactionsList,Scanner input){
+       System.out.println("Enter From The following option");
+       System.out.println("1) Month to Date");
+       System.out.println("2) Previous Month");
+       System.out.println("3) Year to Date");
+       System.out.println("4) Previous Year");
+       System.out.println("5) Search by Vendor");
+       System.out.println("6) Custom Search");
+       System.out.println("0) Go back to the report page");
+       int choose= input.nextInt();
+       input.nextLine();
+       switch ()
+
+   }
 
 }
