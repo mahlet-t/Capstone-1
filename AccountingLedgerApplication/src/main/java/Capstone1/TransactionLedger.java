@@ -1,8 +1,5 @@
 package Capstone1;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,8 +16,7 @@ public class TransactionLedger {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         ArrayList<Transaction> transactionList = getTransactionList();
-        displayDeposits(transactionList);
-        displayPayment(transactionList);
+        monthToDateReport(transactionList);
 
 
     }
@@ -184,7 +180,8 @@ public class TransactionLedger {
         LocalDate today=LocalDate.now();
         for (Transaction transaction : transactionsList) {
             LocalDate transactionDate=transaction.getDate();
-            if ((transactionDate.isEqual(today)||transactionDate.isAfter(firstDayOfMonth))&&(transactionDate.isEqual(today)||transactionDate.isBefore(today))){
+            if ((transactionDate.isEqual(firstDayOfMonth)||transactionDate.isAfter(firstDayOfMonth))&&
+                    (transactionDate.isEqual(today)||transactionDate.isBefore(today))){
                 System.out.println(transaction);
             }
         }
@@ -192,5 +189,29 @@ public class TransactionLedger {
 
 
     }
+    /**
+     * Display a report of all transaction from the previous month.
+     * Filter transactions between the first and last day of the previous month.
+     * Included a formatted header for better readability.
+     */
+    public static void previousMonthReport(ArrayList<Transaction>transactionsList){
+        System.out.println("Here is your Previous Month Report");
+        System.out.println("................................................................");
+        System.out.println(String.format("%-12s%-10s%-10s  %10s  %-10s", "Date", "Time", "Description", "Vendor", "Amount"));
+        System.out.println("............................................................................");
+        // Get the first day of the previous month
+        LocalDate firstDayOfPreviousMonth=LocalDate.now().minusMonths(1).withDayOfMonth(1);
+        //Get the last day of the previous month
+        LocalDate lastDayOfPreviousMonth=LocalDate.now().minusMonths(1).withDayOfMonth(LocalDate.now().minusMonths(1).lengthOfMonth());
+       for (Transaction transaction:transactionsList){
+           LocalDate transactionDate=transaction.getDate();
+           if ((transactionDate.isEqual(firstDayOfPreviousMonth)||transactionDate.isAfter(firstDayOfPreviousMonth))&&
+                   (transactionDate.isEqual(lastDayOfPreviousMonth)||transactionDate.isBefore(lastDayOfPreviousMonth))){
+               System.out.println(transaction);
+           }
+       }
+
+    }
+
 
 }
