@@ -16,8 +16,33 @@ public class TransactionLedger {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         ArrayList<Transaction> transactionList = getTransactionList();
-        monthToDateReport(transactionList);
+        boolean keepChoosing=true;
+        while (keepChoosing) {
+        System.out.println("Transaction Ledger Home screen");
+        System.out.println("Enter from the following option");
+        System.out.println("D) Add Deposit");
+        System.out.println("P) Make Payment(Debit)");
+        System.out.println("L) Ledger");
+        System.out.println("X) Exit");
+        String choose=input.nextLine().toUpperCase();
 
+            switch (choose) {
+                case "D":
+                    addDeposit(transactionList, input);
+                    break;
+                case "P":
+                    makePayment(transactionList, input);
+                    break;
+                case "L":
+                    ;
+                case "X":
+                    System.out.println("Good Bye!");keepChoosing=false;break;
+
+                default:
+                    System.out.println("Invalid Choice. Please Try again.");
+            }
+
+        }
 
     }
 
@@ -236,5 +261,65 @@ public class TransactionLedger {
 
    }
 
+    /**
+     * Displays all transaction from the previous calendar year.
+     * Filter transactions between January 1st and december 31st of the previous year.
+     */
+   public static void previousYearReport(ArrayList<Transaction>transactionsList){
+       System.out.println("Here is your previous year Report");
+       System.out.println("................................................................");
+       System.out.println(String.format("%-12s%-10s%-10s  %10s  %-10s", "Date", "Time", "Description", "Vendor", "Amount"));
+       System.out.println("............................................................................");
+       LocalDate firstDayOfPreviousYear=LocalDate.now().minusYears(1).withDayOfYear(1);
+       LocalDate LastDayOfPreviousYear=LocalDate.now().minusYears(1).withDayOfYear(LocalDate.now().minusYears(1).lengthOfYear());
+       for (Transaction transaction:transactionsList){
+           LocalDate transactionDate=transaction.getDate();
+           if ((transactionDate.isEqual(firstDayOfPreviousYear)||transactionDate.isAfter(firstDayOfPreviousYear))
+                   &&(transactionDate.isEqual(LastDayOfPreviousYear)||transactionDate.isBefore(LastDayOfPreviousYear))){
+               System.out.println(transaction);
+
+           }
+       }
+
+   }
+
+    /**
+     * Allows the user to search for transaction by vendor name.
+     * If found, display all matching transactions with formatted header.
+     * User can keep searching or type "Exit" to leave the search
+     */
+   public static void searchByVendor(ArrayList<Transaction>transactionsList,Scanner input) {
+       boolean keepSearching = true;
+       while (keepSearching) {
+           System.out.println("Enter the vendor");
+           System.out.println("or type 'Exit' To Exit");
+           String vendor = input.nextLine();
+           if (vendor.equalsIgnoreCase("exit")){
+               keepSearching=false;
+               break;
+           }
+           boolean found=false;
+           for (Transaction transaction : transactionsList) {
+               if (vendor.equalsIgnoreCase(transaction.getVendor())) {
+                   if (!found) {
+                       System.out.println("Found\n");
+                       System.out.println("................................................................");
+                       System.out.println(String.format("%-12s%-10s%-10s  %10s  %-10s", "Date", "Time", "Description", "Vendor", "Amount"));
+                       System.out.println("............................................................................");
+                       found=true;
+                   }
+                   System.out.println(transaction);
+               }
+           }
+           if (!found){
+               System.out.println("No transaction found for vendor: "+vendor);
+           }
+           else {
+               keepSearching=false;
+           }
+
+       }
+   }
+   public static void
 
 }
