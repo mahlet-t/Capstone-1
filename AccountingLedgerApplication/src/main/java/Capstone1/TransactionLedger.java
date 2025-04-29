@@ -34,7 +34,6 @@ public class TransactionLedger {
                     makePayment(transactionList, input);
                     break;
                 case "L":ledgerMenu(transactionList,input);
-                    ;
                 case "X":
                     System.out.println("Good Bye!");keepChoosing=false;break;
 
@@ -147,6 +146,13 @@ public class TransactionLedger {
         System.out.println("..............................................................................................");
         System.out.println(String.format("%-12s%-10s%-10s  %10s  %-10s", "Date", "Time", "Description", "Vendor", "Amount"));
         System.out.println("..............................................................................................");
+        transactionsList.sort((t1,t2)->{
+            int dateCompare =t2.getDate().compareTo(t1.getDate());
+            if (dateCompare!=0){
+                return dateCompare;
+            }
+            return t2.getTime().compareTo(t1.getTime());
+        });
         for (Transaction transaction : transactionsList) {
             System.out.println(transaction);
         }
@@ -295,8 +301,7 @@ public class TransactionLedger {
            System.out.println("or type 'Exit' To Exit");
            String vendor = input.nextLine();
            if (vendor.equalsIgnoreCase("exit")){
-               keepSearching=false;
-               break;
+               keepSearching=false;break;
            }
            boolean found=false;
            for (Transaction transaction : transactionsList) {
@@ -344,20 +349,102 @@ public class TransactionLedger {
 
        }
 
-   }
-   public static void reports(ArrayList<Transaction>transactionsList,Scanner input){
-       System.out.println("Enter From The following option");
-       System.out.println("1) Month to Date");
-       System.out.println("2) Previous Month");
-       System.out.println("3) Year to Date");
-       System.out.println("4) Previous Year");
-       System.out.println("5) Search by Vendor");
-       System.out.println("6) Custom Search");
-       System.out.println("0) Go back to the report page");
-       int choose= input.nextInt();
-       input.nextLine();
-       switch ()
 
    }
+   public static void reports(ArrayList<Transaction>transactionsList,Scanner input) {
+       boolean keepChoosing = true;
+       while (keepChoosing) {
+           System.out.println("Enter From The following option");
+           System.out.println("1) Month to Date");
+           System.out.println("2) Previous Month");
+           System.out.println("3) Year to Date");
+           System.out.println("4) Previous Year");
+           System.out.println("5) Search by Vendor");
+           System.out.println("6) Custom Search");
+           System.out.println("0) Go back to the report page");
+           int choose = input.nextInt();
+           input.nextLine();
+           switch (choose) {
+               case 1:
+                   monthToDateReport(transactionsList);break;
+               case 2:
+                   previousMonthReport(transactionsList);break;
+               case 3:
+                   yearToDateReport(transactionsList);break;
+               case 4:
+                   previousYearReport(transactionsList);break;
+               case 5:
+                   searchByVendor(transactionsList, input);break;
+               case 6:
+                   customSearch(transactionsList, input);break;
+               case 0:keepChoosing=false;break;
+           }
 
+       }
+   }
+   public static void customSearch(ArrayList<Transaction>transactionsList,Scanner input) {
+       boolean keepSearching = true;
+       while (keepSearching) {
+           System.out.println("Enter Start date(yyyy-mm-dd) or press enter to skip");
+           String startDate = input.nextLine();
+           System.out.println("Enter End date(yyyy-mm-dd) or press enter to skip");
+           String endDate = input.nextLine();
+           System.out.println("Enter Description or press enter to skip");
+           String description = input.nextLine();
+           System.out.println("Enter Vendor or press enter to skip");
+           String vendor = input.nextLine();
+           System.out.println("Enter Amount or press enter to skip");
+           String amountInput= input.nextLine();
+           for (Transaction transaction : transactionsList) {
+               boolean match = true;
+               if (!startDate.isEmpty()) {
+                   if (transaction.getDate().isBefore(LocalDate.parse(startDate))) {
+                       match = false;
+                   }
+
+               }
+               if (!endDate.isEmpty()) {
+                   if (transaction.getDate().isAfter(LocalDate.parse(endDate))) {
+                       match = false;
+                   }
+               }
+               if (!description.isEmpty()) {
+                   if (!transaction.getDescription().equalsIgnoreCase(description)) {
+                       match = false;
+                   }
+               }
+
+               if (!vendor.isEmpty()) {
+                       if (!transaction.getVendor().equalsIgnoreCase(vendor)) {
+                           match = false;
+                       }
+               }
+              if (!amountInput.isEmpty()){
+                  try {
+                      double amount=Double.parseDouble(amountInput);
+                      if (transaction.getAmount()!=amount){
+                          match=false;
+                      }
+
+                  }catch (NumberFormatException e){
+                      System.out.println("Invalid amount entered. ");
+                      match=false;
+                  }
+              }
+
+
+               if (match) {
+                       System.out.println(transaction);break;
+                   }
+
+           }
+           System.out.println("Do you want search again(yes/no)");
+           String again = input.nextLine();
+
+           if (!again.equalsIgnoreCase("yes")) {
+               keepSearching = false;
+           }
+
+       }
+   }
 }
