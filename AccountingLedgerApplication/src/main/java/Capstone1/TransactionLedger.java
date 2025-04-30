@@ -18,7 +18,7 @@ public class TransactionLedger {
         ArrayList<Transaction> transactionList = getTransactionList();
         boolean keepChoosing=true;
         while (keepChoosing) {
-        System.out.println("Transaction Ledger Home screen");
+        printTitle("Transaction Ledger Home screen");
         System.out.println("Enter from the following option");
         System.out.println("D) Add Deposit");
         System.out.println("P) Make Payment(Debit)");
@@ -115,6 +115,7 @@ public class TransactionLedger {
             writer.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount() + "\n");
             writer.close();
             transactionList.add(transaction);
+            loadingMessage("Processing your deposit");
             System.out.println("Your deposit was add successfully.");
 
         } catch (Exception e) {
@@ -159,7 +160,7 @@ public class TransactionLedger {
             writer.close();
             transactionsList.add(transaction);
 
-            System.out.println("Loading");
+            loadingMessage("Processing your deposit");
             System.out.println("Your payment was made Successfully ");
 
 
@@ -175,7 +176,7 @@ public class TransactionLedger {
      */
 //...................................
     public static void displayAll(ArrayList<Transaction> transactionsList) {
-        System.out.println("here is your complete transaction history: ");
+        printTitle("here is your complete transaction history: ");
         System.out.println("..............................................................................................");
         System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("..............................................................................................");
@@ -197,7 +198,8 @@ public class TransactionLedger {
      */
 
     public static void displayDeposits(ArrayList<Transaction> transactionsList) {
-        System.out.println("Here is your complete deposit transaction history:");
+        loadingMessage("Loading");
+        printTitle("Here is your complete deposit transaction history:");
         System.out.println("..................................................................................");
         System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("..................................................................................");
@@ -224,7 +226,8 @@ public class TransactionLedger {
 
 
     public static void displayPayment(ArrayList<Transaction> transactionsList) {
-        System.out.println("Here is your complete payment history:");
+        loadingMessage("Loading");
+        printTitle("Here is your complete payment history:");
         System.out.println("..................................................................................");
         System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("..................................................................................");
@@ -258,6 +261,7 @@ public class TransactionLedger {
             if ((transactionDate.isEqual(firstDayOfMonth)||transactionDate.isAfter(firstDayOfMonth))&&
                     (transactionDate.isEqual(today)||transactionDate.isBefore(today))){
                 if (!found){
+                    loadingMessage("Loading");
                     System.out.println("Here is your current month report");
                     System.out.println("..................................................................................");
                     System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -291,7 +295,8 @@ public class TransactionLedger {
            if ((transactionDate.isEqual(firstDayOfPreviousMonth)||transactionDate.isAfter(firstDayOfPreviousMonth))&&
                    (transactionDate.isEqual(lastDayOfPreviousMonth)||transactionDate.isBefore(lastDayOfPreviousMonth))) {
                if (!found) {
-                   System.out.println("Here is your Previous Month Report");
+                   loadingMessage("Loading");
+                   printTitle("Here is your Previous Month Report");
                    System.out.println("..................................................................................");
                    System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                    System.out.println("..................................................................................");
@@ -325,7 +330,8 @@ public class TransactionLedger {
            if ((transactionDate.isEqual(firstDayOfYear)||transactionDate.isAfter(firstDayOfYear))
                    &&(transactionDate.isEqual(today)||transactionDate.isBefore(today))) {
                if (!found) {
-                   System.out.println("Here is your current year Report");
+                   loadingMessage("Loading");
+                   printTitle("Here is your current year Report");
                    System.out.println("..................................................................................");
                    System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                    System.out.println("..................................................................................");
@@ -357,7 +363,8 @@ public class TransactionLedger {
            if ((transactionDate.isEqual(firstDayOfPreviousYear)||transactionDate.isAfter(firstDayOfPreviousYear))
                    &&(transactionDate.isEqual(LastDayOfPreviousYear)||transactionDate.isBefore(LastDayOfPreviousYear))){
                if(!found){
-                   System.out.println("Here is your previous year Report");
+                   loadingMessage("Loading");
+                   printTitle("Here is your previous year Report");
                    System.out.println("..................................................................................");
                    System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                    System.out.println("..................................................................................");
@@ -397,7 +404,8 @@ public class TransactionLedger {
            for (Transaction transaction : transactionsList) {
                if (vendor.equalsIgnoreCase(transaction.getVendor())) {
                    if (!found) {
-                       System.out.println("Found\n");
+                       loadingMessage("Loading");
+                       printTitle("Found\n");
                        System.out.println("...................................................................................");
                        System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                        System.out.println("...................................................................................");
@@ -418,6 +426,7 @@ public class TransactionLedger {
    public static void ledgerMenu(ArrayList<Transaction>transactionsList,Scanner input){
        boolean keepChoosing=true;
        while (keepChoosing) {
+           printTitle("Ledger Menu");
            System.out.println("Enter from the following option ");
            System.out.println("A) Display ALL");
            System.out.println("D) Display Deposits only");
@@ -444,6 +453,7 @@ public class TransactionLedger {
    public static void reports(ArrayList<Transaction>transactionsList,Scanner input) {
        boolean keepChoosing = true;
        while (keepChoosing) {
+           printTitle("Report Menu");
            System.out.println("Enter From The following option");
            System.out.println("1) Month to Date");
            System.out.println("2) Previous Month");
@@ -537,6 +547,7 @@ public class TransactionLedger {
 
                    if (match) {
                        if (!anyMatch) {
+                           loadingMessage("Loading");
                            System.out.println("................................................................................");
                            System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                            System.out.println("................................................................................");
@@ -558,5 +569,23 @@ public class TransactionLedger {
            }
 
 
+   }
+    public static void printTitle(String title){
+        System.out.println("\n=================================================================");
+        System.out.println("               "+title);
+        System.out.println("==================================================================\n");
+   }
+   public static void loadingMessage(String message){
+       System.out.println(message);
+       for (int i=0;i<3;i++){
+           try {
+               Thread.sleep(500);//wait 0.5 second
+
+           }catch (InterruptedException e){
+               e.printStackTrace();
+           }
+           System.out.println(".");
+       }
+       System.out.println();// go to the next line
    }
 }
