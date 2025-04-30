@@ -90,11 +90,17 @@ public class TransactionLedger {
             try {
                 amount = input.nextDouble();
                 input.nextLine();
-                validAmount = true;
+                if (amount<=0){
+                    System.out.println("Please enter a valid amount greater than 0.");}
+                else {
+                validAmount = true;}
             } catch (Exception e) {
                 System.out.println("Invalid input. please enter a valid number ");
                 input.nextLine();
             }
+
+
+
         }
 
             Transaction transaction = new Transaction(LocalDate.now(), LocalTime.now().withNano(0), description, name, amount);
@@ -139,7 +145,7 @@ public class TransactionLedger {
                 input.nextLine();
             }
         }
-            amount = amount * -1;
+            amount = -Math.abs(amount);
             Transaction transaction = new Transaction(LocalDate.now(), LocalTime.now().withNano(0), description, name, amount);
             try {
             File file = new File("transaction.csv");
@@ -152,6 +158,8 @@ public class TransactionLedger {
             writer.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount() + "\n");
             writer.close();
             transactionsList.add(transaction);
+
+            System.out.println("Loading");
             System.out.println("Your payment was made Successfully ");
 
 
@@ -201,7 +209,7 @@ public class TransactionLedger {
             return t2.getTime().compareTo(t1.getTime());
         });
         for (Transaction transaction : transactionsList) {
-            if (transaction.getAmount() >= 0) {
+            if (transaction.getAmount() > 0) {
                 System.out.println(transaction);
 
             }
