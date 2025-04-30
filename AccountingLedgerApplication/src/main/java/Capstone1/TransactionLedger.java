@@ -273,7 +273,6 @@ public class TransactionLedger {
      * Included a formatted header for better readability.
      */
     public static void previousMonthReport(ArrayList<Transaction>transactionsList){
-
         // Get the first day of the previous month
         LocalDate firstDayOfPreviousMonth=LocalDate.now().minusMonths(1).withDayOfMonth(1);
         //Get the last day of the previous month
