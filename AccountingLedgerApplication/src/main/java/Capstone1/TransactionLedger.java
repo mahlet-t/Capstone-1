@@ -178,7 +178,6 @@ public class TransactionLedger {
      * Display all transactions in the ledger,
      * including a header row and formatted transaction details.
      */
-//...................................
     public static void displayAll(ArrayList<Transaction> transactionsList) {
         printTitle("here is your complete transaction history: ");
         System.out.println("..............................................................................................");
@@ -200,7 +199,6 @@ public class TransactionLedger {
      * Displays all deposit transactions from the transaction list,
      * including a formatted header
      */
-
     public static void displayDeposits(ArrayList<Transaction> transactionsList) {
         loadingMessage("Loading");
         printTitle("Here is your complete deposit transaction history:");
@@ -227,8 +225,6 @@ public class TransactionLedger {
      * Displays all deposit transactions from the transaction list,
      * including a formatted header.
      */
-
-
     public static void displayPayment(ArrayList<Transaction> transactionsList) {
         loadingMessage("Loading");
         printTitle("Here is your complete payment history:");
@@ -350,7 +346,6 @@ public class TransactionLedger {
         }
     }
 
-
     /**
      * Displays all transaction from the previous calendar year.
      * Filter transactions between January 1st and december 31st of the previous year.
@@ -424,6 +419,10 @@ public class TransactionLedger {
         }
     }
 
+    /**
+     *     Shows ledger options (All, Deposit, Payment, Reports).
+     *     Loops until the user chooses to go back.
+     */
     public static void ledgerMenu(ArrayList<Transaction> transactionsList, Scanner input) {
         boolean keepChoosing = true;
         while (keepChoosing) {
@@ -460,6 +459,10 @@ public class TransactionLedger {
 
     }
 
+    /**
+     * Shows reports menu with different time-based reports and search options.
+     * Keeps running until user exits.
+     */
     public static void reports(ArrayList<Transaction> transactionsList, Scanner input) {
         boolean keepChoosing = true;
         while (keepChoosing) {
@@ -501,6 +504,11 @@ public class TransactionLedger {
         }
     }
 
+    /**
+     * Lets user search by date, description, vendor, or amount.
+     * Skipped fields are allowed.
+     * Results are shown if matched.
+     */
     public static void customSearch(ArrayList<Transaction> transactionsList, Scanner input) {
         boolean keepSearching = true;
 
@@ -590,12 +598,13 @@ public class TransactionLedger {
 
     }
 
+    // Prints the table header for transaction display.
     public static void printTitle(String title) {
         System.out.println("\n=================================================================");
         System.out.println("               " + title);
         System.out.println("==================================================================\n");
     }
-
+// Shows a loading message with a short pause to simulate processing.
    public static void loadingMessage(String message) {
 //        System.out.println(message);
 //        for (int i = 0; i < 3; i++) {
