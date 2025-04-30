@@ -8,11 +8,19 @@
 All transactions are stored in a transaction.csv file and printed in a formatted table for easy reading.
 
 ### Main menu
-![img.png](img.png)
+![img.png](src/main/java/Capstone1/img.png)
 ### Ledger menu
-![img_1.png](img_1.png)
+![img_1.png](src/main/java/Capstone1/img_1.png)
 ### Report menu
-![img_2.png](img_2.png)
+![img_2.png](src/main/java/Capstone1/img_2.png)
+## How to Run This Application
+1. Clone or download This repository.
+2. Open the project in Intellij IDEA (or any Java IDE).
+3. Make sure you have Java 17+ installed.
+4. Run the 'main()' method from the 'TransactionLedger' class.
+5. The program will launch in the terminal (CLI) and guide you with menu options.
+
+**NOTE** All transaction are saved to a file named transaction.csv. Make sure this file is in the same working directory as the application. If it doesn't exist, it will be created automatically when a deposit or payment is made
 ### Interesting Code: Calculating The previous Month's Date Range
 one interesting part of my project is how I get the first and last day of the previous month using Java's LocalDate:
 // Get the first day of the previous month
