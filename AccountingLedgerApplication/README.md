@@ -9,7 +9,7 @@ All transactions are stored in a transaction.csv file and printed in a formatted
 
 ### Main menu
 ![img.png](src/main/java/Capstone1/img.png)
-### Ledger menu
+### Ledger menu 
 ![img_1.png](src/main/java/Capstone1/img_1.png)
 ### Report menu
 ![img_2.png](src/main/java/Capstone1/img_2.png)

@@ -73,13 +73,12 @@ public class TransactionLedger {
         } catch (Exception e) {
             System.out.println("invalid input" + e.getMessage());
         }
-        return transactionList;
+        return transactionList;// used in other parts
     }
 
     /**
      * prompts the user to enter deposit information.
      * creates a new Transaction and appends it to the transactions.csv file.
-     * ....................................................................................................................
      */
     public static void addDeposit(ArrayList<Transaction> transactionList, Scanner input) {
         System.out.println("Enter a description: ");
@@ -119,7 +118,7 @@ public class TransactionLedger {
             writer.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount() + "\n");
             writer.close();
             transactionList.add(transaction);
-            loadingMessage("Processing your deposit");
+            loadingMessage("Processing your deposit...");
             System.out.println("Your deposit was add successfully.");
 
         } catch (Exception e) {
@@ -164,7 +163,7 @@ public class TransactionLedger {
             writer.close();
             transactionsList.add(transaction);
 
-            loadingMessage("Processing your deposit");
+            loadingMessage("Processing your payment...");
             System.out.println("Your payment was made Successfully ");
 
 
@@ -200,7 +199,7 @@ public class TransactionLedger {
      * including a formatted header
      */
     public static void displayDeposits(ArrayList<Transaction> transactionsList) {
-        loadingMessage("Loading");
+        loadingMessage("Loading...");
         printTitle("Here is your complete deposit transaction history:");
         System.out.println("..................................................................................");
         System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -222,11 +221,11 @@ public class TransactionLedger {
     }
 
     /**
-     * Displays all deposit transactions from the transaction list,
+     * Displays all payment transactions from the transaction list,
      * including a formatted header.
      */
     public static void displayPayment(ArrayList<Transaction> transactionsList) {
-        loadingMessage("Loading");
+        loadingMessage("Loading...");
         printTitle("Here is your complete payment history:");
         System.out.println("..................................................................................");
         System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -255,14 +254,14 @@ public class TransactionLedger {
     public static void monthToDateReport(ArrayList<Transaction> transactionsList) {
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         LocalDate today = LocalDate.now();
-        boolean found = false;
+        boolean found = false;//to control when to show the header once
         for (Transaction transaction : transactionsList) {
             LocalDate transactionDate = transaction.getDate();
             if ((transactionDate.isEqual(firstDayOfMonth) || transactionDate.isAfter(firstDayOfMonth)) &&
                     (transactionDate.isEqual(today) || transactionDate.isBefore(today))) {
                 if (!found) {
-                    loadingMessage("Loading");
-                    System.out.println("Here is your current month report");
+                    loadingMessage("Loading...");
+                    printTitle("Here is your current month report");
                     System.out.println("..................................................................................");
                     System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                     System.out.println("..................................................................................");
@@ -295,7 +294,7 @@ public class TransactionLedger {
             if ((transactionDate.isEqual(firstDayOfPreviousMonth) || transactionDate.isAfter(firstDayOfPreviousMonth)) &&
                     (transactionDate.isEqual(lastDayOfPreviousMonth) || transactionDate.isBefore(lastDayOfPreviousMonth))) {
                 if (!found) {
-                    loadingMessage("Loading");
+                    loadingMessage("Loading...");
                     printTitle("Here is your Previous Month Report");
                     System.out.println("..................................................................................");
                     System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -329,7 +328,7 @@ public class TransactionLedger {
             if ((transactionDate.isEqual(firstDayOfYear) || transactionDate.isAfter(firstDayOfYear))
                     && (transactionDate.isEqual(today) || transactionDate.isBefore(today))) {
                 if (!found) {
-                    loadingMessage("Loading");
+                    loadingMessage("Loading...");
                     printTitle("Here is your current year Report");
                     System.out.println("..................................................................................");
                     System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -359,7 +358,7 @@ public class TransactionLedger {
             if ((transactionDate.isEqual(firstDayOfPreviousYear) || transactionDate.isAfter(firstDayOfPreviousYear))
                     && (transactionDate.isEqual(LastDayOfPreviousYear) || transactionDate.isBefore(LastDayOfPreviousYear))) {
                 if (!found) {
-                    loadingMessage("Loading");
+                    loadingMessage("Loading...");
                     printTitle("Here is your previous year Report");
                     System.out.println("..................................................................................");
                     System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -400,7 +399,7 @@ public class TransactionLedger {
             for (Transaction transaction : transactionsList) {
                 if (vendor.equalsIgnoreCase(transaction.getVendor())) {
                     if (!found) {
-                        loadingMessage("Loading");
+                        loadingMessage("Loading..");
                         printTitle("Found\n");
                         System.out.println("...................................................................................");
                         System.out.printf("%-12s %-10s %-25s  %-20s  %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -420,8 +419,8 @@ public class TransactionLedger {
     }
 
     /**
-     *     Shows ledger options (All, Deposit, Payment, Reports).
-     *     Loops until the user chooses to go back.
+     * Shows ledger options (All, Deposit, Payment, Reports).
+     * Loops until the user chooses to go back.
      */
     public static void ledgerMenu(ArrayList<Transaction> transactionsList, Scanner input) {
         boolean keepChoosing = true;
@@ -474,7 +473,7 @@ public class TransactionLedger {
             System.out.println("4) Previous Year");
             System.out.println("5) Search by Vendor");
             System.out.println("6) Custom Search");
-            System.out.println("0) Go back to the report page");
+            System.out.println("0) Go back to the ledger menu");
             int choose = input.nextInt();
             input.nextLine();
             switch (choose) {
@@ -511,7 +510,6 @@ public class TransactionLedger {
      */
     public static void customSearch(ArrayList<Transaction> transactionsList, Scanner input) {
         boolean keepSearching = true;
-
         while (keepSearching) {
             System.out.println("Enter Start date (yyyy-mm-dd) or press Enter to skip:");
             String startDateInput = input.nextLine();
@@ -530,7 +528,7 @@ public class TransactionLedger {
                 if (dateCompare != 0) return dateCompare;
                 return t2.getTime().compareTo(t1.getTime());
             });
-
+            // wait until the user provides valid input
             LocalDate startDate = null;
             LocalDate endDate = null;
             Double amount = null;
@@ -546,7 +544,7 @@ public class TransactionLedger {
                 }
             } catch (Exception e) {
                 System.out.println("Invalid date or amount format. Please try again.");
-                continue; // skip this search round
+                continue; // skip the rest of the loop and go back to the top
             }
 
             boolean anyMatch = false;
@@ -574,7 +572,7 @@ public class TransactionLedger {
 
                 if (match) {
                     if (!anyMatch) {
-                        loadingMessage("Loading");
+                        loadingMessage("Loading...");
                         System.out.println("................................................................................");
                         System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
                         System.out.println("................................................................................");
@@ -601,16 +599,19 @@ public class TransactionLedger {
     // Prints the table header for transaction display.
     public static void printTitle(String title) {
         System.out.println("\n=================================================================");
-        System.out.println("               " + title);
+        System.out.println("                  " + title);
         System.out.println("==================================================================\n");
     }
-// Shows a loading message with a short pause to simulate processing.
-   public static void loadingMessage(String message) {
-//        System.out.println(message);
-//        for (int i = 0; i < 3; i++) {
-//        Thread.sleep(500);//wait 0.5 second
-//        }
-//        System.out.println(".");
 
+    // Shows a loading message with a short pause to simulate processing.
+    public static void loadingMessage(String message) {
+        System.out.println(message);
+        try {
+            {
+                Thread.sleep(2000);//wait 2 seconds
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Loading was interrupted");
+        }
     }
-  }
+}
